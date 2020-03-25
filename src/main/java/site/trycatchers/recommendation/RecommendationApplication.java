@@ -21,9 +21,6 @@ public class RecommendationApplication {
 
 	@EventListener(ApplicationReadyEvent.class)
 	public void doSomethingAfterStartup() {
-		var entity = new HttpEntity<>("{\"jsonQuery\":{\"region\":{\"type\":\"terms\",\"value\":[1]},\"_type\":\"flatrent\",\"room\":{\"type\":\"terms\",\"value\":[1,2,9]},\"engine_version\":{\"type\":\"term\",\"value\":2},\"for_day\":{\"type\":\"term\",\"value\":\"\\u00211\"},\"page\":{\"type\":\"term\",\"value\":2}}}");
-		var result = restTemplate.postForEntity("https://api.cian.ru/search-offers/v2/search-offers-desktop/", entity, String.class);
-		System.out.println(result.getBody());
 	}
 
 }
