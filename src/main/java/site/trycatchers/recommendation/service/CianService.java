@@ -1,14 +1,17 @@
 package site.trycatchers.recommendation.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import site.trycatchers.recommendation.domain.Flat;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -23,10 +26,18 @@ public class CianService {
         return getFlatsFromResponse(result.getBody());
     }
 
-    public List<Flat> getFlatsFromResponse(String response) {
-        var flats = new ArrayList<Flat>();
+    @SneakyThrows
+    public List<Flat> getFlatsFromResponse(String response){
+        var cianResponse = mapper.readValue(response, CianResponse.class);
+        return cianResponse.getData().getOffersSerialized();
+    }
 
-        // todo fill the flat
-        return flats;
+    @Data
+    private static class CianResponse {
+        private CianData data;
+        @Data
+        private static class CianData {
+            private List<Flat> offersSerialized;
+        }
     }
 }

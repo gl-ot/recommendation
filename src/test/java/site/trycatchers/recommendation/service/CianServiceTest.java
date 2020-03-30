@@ -1,26 +1,34 @@
 package site.trycatchers.recommendation.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.ResourceUtils;
-import org.springframework.web.client.RestTemplate;
 
 import java.nio.file.Files;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
 
+@SpringBootTest
 public class CianServiceTest {
 
-    ObjectMapper mapper = new ObjectMapper();
-    RestTemplate restTemplate = mock(RestTemplate.class);
-    CianService cianService = new CianService(restTemplate, mapper);
+    @Autowired
+    CianService cianService;
 
     @Test
     public void shouldParseFlats() throws Exception {
         var fileResponse = ResourceUtils.getFile("classpath:cian-response.json");
         var response = Files.readString(fileResponse.toPath());
         var result = cianService.getFlatsFromResponse(response);
-        assertThat(result).hasSize(0);
+        System.out.println(result);
+        assertThat(result).hasSize(28);
+        var first = result.get(0);
+        assertThat(first.getId()).isEqualTo("227609808");
+        assertThat(first.getFullUrl()).isEqualTo("https://www.cian.ru/rent/flat/227609808/");
+        assertThat(first.getTotalArea()).isEqualTo(70.0);
+        assertThat(first.getGeo().getCoordinates().getLng()).isEqualTo(37.534092);
+        assertThat(first.getGeo().getCoordinates().getLat()).isEqualTo(55.74938);
+        assertThat(first.getBargainTerms().getPrice()).isEqualTo(220000);
+        assertThat(first.getBargainTerms().getAgentFee()).isEqualTo(0);
     }
 }
