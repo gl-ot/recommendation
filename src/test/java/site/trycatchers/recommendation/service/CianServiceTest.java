@@ -19,7 +19,7 @@ public class CianServiceTest {
     public void shouldParseFlats() throws Exception {
         var fileResponse = ResourceUtils.getFile("classpath:cian-response.json");
         var response = Files.readString(fileResponse.toPath());
-        var result = cianService.getFlatsFromResponse(response);
+        var result = cianService.parseFlatsFromResponse(response);
         System.out.println(result);
         assertThat(result).hasSize(28);
         var first = result.get(0);

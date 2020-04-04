@@ -1,0 +1,1 @@
+curl 'https://api.cian.ru/search-offers/v2/search-offers-desktop/' --data-binary $'{"jsonQuery":{"region":{"type":"terms","value":[1]},"_type":"flatrent","room":{"type":"terms","value":[1,2,9]},"engine_version":{"type":"term","value":2},"for_day":{"type":"term","value":"\u00211"},"page":{"type":"term","value":2}}}'
