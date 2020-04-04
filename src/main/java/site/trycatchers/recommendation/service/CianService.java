@@ -13,10 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import site.trycatchers.recommendation.domain.Flat;
 
-import javax.annotation.PostConstruct;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,15 +26,6 @@ public class CianService {
 
     @Value("${cian.pageSize}")
     private int cianPageSize;
-
-    @PostConstruct
-    @SneakyThrows
-    public void deleteMe() {
-        for (var flat : getFlats()) {
-            Files.write(Path.of("/Users/glotovdv/IdeaProjects/recomendation/result.txt"),
-                    (flat.toString() + "\n").getBytes(), StandardOpenOption.APPEND);
-        }
-    }
 
     public List<Flat> getFlats() {
         var offerCount = getOffererCount();
